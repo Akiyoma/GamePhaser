@@ -41,6 +41,10 @@ class Game extends Phaser.Scene {
         beam.destroy();
         boss.healthBar.decrease(1);
         this.increaseScore(1);
+        if (boss.healthBar.value === 0) {
+            this.increaseScore(40);
+            this.scene.start("scoreBoard");
+        }
     }
 
     increaseScore(amount) {

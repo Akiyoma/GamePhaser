@@ -4,6 +4,7 @@ class HealthBar extends Phaser.GameObjects.Graphics {
         scene.add.existing(this);
         this.x = x;
         this.y = y;
+        this.setDepth(1);
         this.value = 100;
         this.draw();
     }
