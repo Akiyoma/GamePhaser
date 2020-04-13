@@ -1,11 +1,11 @@
-class Scene2 extends Phaser.Scene {
+class Game extends Phaser.Scene {
     constructor() {
         super("playGame");
     }
 
     create() {
         this.background = this.add.image(10, 10, "background");
-        this.background.setOrigin(0,0);
+        this.background.setOrigin(0, 0);
         this.background.setDepth(0);
         this.scorebackground = this.add.image(0, 0, "scorebackground");
         this.scorebackground.setOrigin(0,0);
@@ -53,7 +53,7 @@ class Scene2 extends Phaser.Scene {
     }
 
     hitPlayer(projectile, player) {
-        if (projectile.alpha == 1) {
+        if (projectile.alpha === 1) {
             projectile.setAlpha(0);
             projectile.body.setEnable(false);
             this.boss.projectiles.remove(projectile);
@@ -62,7 +62,7 @@ class Scene2 extends Phaser.Scene {
             }
             player.body.setEnable(false);
             this.life -= 1;
-            if (this.life == -1) {
+            if (this.life === -1) {
                 this.scene.start("scoreBoard");
             }
             this.lifeLabel.setText("LIFE " + this.life);
