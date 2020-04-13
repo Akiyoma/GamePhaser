@@ -2,6 +2,7 @@ class Player extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
         let shipplayer = scene.add.image(0, 0, "shipplayer");
         super(scene, x, y, "player");
+        this.speed = 240;
         this.shipplayer = shipplayer;
         scene.add.existing(this);
         scene.physics.world.enableBody(this);
@@ -33,8 +34,8 @@ class Player extends Phaser.GameObjects.Sprite {
         this.body.setVelocityX(0);
         this.body.setVelocityY(0);
         if (this.hInput != 0 || this.vInput != 0) {
-            this.body.setVelocityX(this.hInput*gameSettings.playerSpeed);
-            this.body.setVelocityY(this.vInput*gameSettings.playerSpeed);
+            this.body.setVelocityX(this.hInput*this.speed);
+            this.body.setVelocityY(this.vInput*this.speed);
         }
     }
 

@@ -21,13 +21,20 @@ class Scene2 extends Phaser.Scene {
         this.life = 4;
         this.lifeLabel = this.add.bitmapText(500, 60, "pixelFont", "LIFE " + this.life, 30);
         this.lifeLabel.setDepth(1);
+        this.atkgroup = this.add.bitmapText(500, 80, "pixelFont", this.boss.projectiles.getChildren().length, 30);
+        this.atkgroup.setDepth(1);
+        this.pgroup = this.add.bitmapText(500, 100, "pixelFont", this.boss.projectiles.getChildren().length, 30);
+        this.pgroup.setDepth(1);
+        this.physics.add.overlap(this.player.beams, this.boss, this.hitBoss, null, this);
+        this.physics.add.overlap(this.boss.projectiles, this.player, this.hitPlayer, null, this);
     }
 
     update() {
         this.player.update();
         this.boss.update();
-        this.physics.add.overlap(this.player.beams, this.boss, this.hitBoss, null, this);
-        this.physics.add.overlap(this.boss.projectiles, this.player, this.hitPlayer, null, this);
+
+        this.atkgroup.setText("Projectiles Group : "+this.boss.attackGr1.getChildren().length);
+        this.pgroup.setText("Projectiles : "+this.boss.projectiles.getChildren().length);
     }
 
     hitBoss(beam, boss) {
@@ -45,11 +52,30 @@ class Scene2 extends Phaser.Scene {
         this.scoreLabel.setText("SCORE " + this.score);
     }
 
-    hitPlayer(obj1,obj2) {
-        if (obj1.alpha == 1) {
-            obj1.setAlpha(0);
+    hitPlayer(projectile, player) {
+        if (projectile.alpha == 1) {
+            projectile.setAlpha(0);
+            projectile.body.setEnable(false);
+            this.boss.projectiles.remove(projectile);
+            if (this.player.alpha < 1) {
+                return;
+            }
+            player.body.setEnable(false);
             this.life -= 1;
+            if (this.life == -1) {
+                this.scene.start("scoreBoard");
+            }
             this.lifeLabel.setText("LIFE " + this.life);
+            this.player.x = 200;
+            this.player.y = 550;
+            this.player.alpha = 0.5;
+            this.player.body.setEnable(true);
+            this.time.addEvent({
+                delay: 1000,
+                callback: () => {this.player.alpha = 1;},
+                callbackScope: this,
+                loop: false
+            });
         }
     }
 }
