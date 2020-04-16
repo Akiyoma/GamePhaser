@@ -21,10 +21,6 @@ class Game extends Phaser.Scene {
         this.life = 4;
         this.lifeLabel = this.add.bitmapText(500, 60, "pixelFont", "LIFE " + this.life, 30);
         this.lifeLabel.setDepth(1);
-        this.atkgroup = this.add.bitmapText(500, 80, "pixelFont", this.boss.projectiles.getChildren().length, 30);
-        this.atkgroup.setDepth(1);
-        this.pgroup = this.add.bitmapText(500, 100, "pixelFont", this.boss.projectiles.getChildren().length, 30);
-        this.pgroup.setDepth(1);
         this.physics.add.overlap(this.player.beams, this.boss, this.hitBoss, null, this);
         this.physics.add.overlap(this.boss.projectiles, this.player, this.hitPlayer, null, this);
     }
@@ -32,9 +28,6 @@ class Game extends Phaser.Scene {
     update() {
         this.player.update();
         this.boss.update();
-
-        this.atkgroup.setText("Projectiles Group : "+this.boss.attackGr1.getChildren().length);
-        this.pgroup.setText("Projectiles : "+this.boss.projectiles.getChildren().length);
     }
 
     hitBoss(beam, boss) {
